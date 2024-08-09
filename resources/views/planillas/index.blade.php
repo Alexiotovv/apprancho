@@ -152,7 +152,7 @@
                         $(element).val("");
                         setTimeout(function() {
                             $(element).focus(); // Coloca el cursor en el campo de entrada
-                        }, 300); // Retraso de 0 milisegundos
+                        }, 1300); // Retraso de 0 milisegundos
                     }
                 });
             }
