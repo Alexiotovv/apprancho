@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\TrabajadoresController;
+use App\Http\Controllers\PlanillasController;
 
 Route::get('/',function(){
     return view('auth.login');
@@ -22,6 +23,18 @@ Route::post('/trabajadores/store', [TrabajadoresController::class,'store'])->mid
 Route::get('/trabajadores/edit/{id}', [TrabajadoresController::class,'edit'])->middleware(['auth'])->name('trabajadores.edit');
 Route::post('/trabajadores/update', [TrabajadoresController::class,'update'])->middleware(['auth'])->name('trabajadores.update');
 Route::post('/trabajadores/destroy', [TrabajadoresController::class,'destroy'])->middleware(['auth'])->name('trabajadores.destroy');
+
+
+//EmpresasTrabajó
+Route::get('/trabajadores/empresas/{id}', [TrabajadoresController::class,'empresas'])->middleware(['auth'])->name('trabajadores.empresas');
+// Route::post('/trabajadores/empresas/store', [TrabajadoresController::class,'empresas_store'])->middleware(['auth'])->name('empresas_store');
+
+//Planillas
+Route::get('/planillas/index', [PlanillasController::class,'index'])->middleware(['auth'])->name('planillas.index');
+Route::post('/planillas/store', [PlanillasController::class,'store'])->middleware(['auth'])->name('planillas.store');
+Route::get('/planillas/show/{fecha}/{empresa}', [PlanillasController::class,'show'])->middleware(['auth'])->name('planillas.show');
+Route::get('/planillas/checkcomida/{codido}/{comida}', [PlanillasController::class,'checkcomida'])->middleware(['auth'])->name('planillas.checkcomida');
+Route::get('/planillas/checkestado/{id}/{comida}/{estado}', [PlanillasController::class,'checkestado'])->middleware(['auth'])->name('planillas.checkestado');
 
 //Empresas
 Route::get('/empresas/index', [EmpresasController::class,'index'])->middleware(['auth'])->name('empresas.index');

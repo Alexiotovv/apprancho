@@ -78,6 +78,7 @@
                   <li class="pc-item"><a class="pc-link" href="{{route('home')}}">Home</a></li>
                   <li class="pc-item"><a class="pc-link" href="{{route('empresas.index')}}">Empresas</a></li>
                   <li class="pc-item"><a class="pc-link" href="{{route('trabajadores.index')}}">Trabajadores</a></li>
+                  <li class="pc-item"><a class="pc-link" href="{{route('planillas.index')}}">Planillas</a></li>
                   
                   
                   

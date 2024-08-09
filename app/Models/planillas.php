@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class asignaciones extends Model
+class planillas extends Model
 {
     use HasFactory;
 }

@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(TrabajadoresSeeder::class);
+
         DB::table('users')->insert([
             'name'=>'admin',
             'email' => 'admin@gmail.com',
@@ -21,12 +23,26 @@ class DatabaseSeeder extends Seeder
             'status'=>1,
         ]);
 
-        DB::table('empresas')->insert([
-            'nombre'=>'EVITA PRUEBA',
-            'estado' => 1,
-            
+        // DB::table('empresas')->insert([
+        //     [
+        //         'nombre' => 'EVITA PRUEBA',
+        //         'estado' => 1,
+        //     ],
+        //     [
+        //         'nombre' => 'MANU EIRL',
+        //         'estado' => 1,
+        //     ]
+        // ]);
+        
+        DB::table('proveedores')->insert([
+            [
+                'nombre' => 'AYWSOLUTION SAC'
+            ],
+            [
+                'nombre' => 'PRIMOSAC'
+            ]
         ]);
-
+        
         // DB::statement("
         //     CREATE PROCEDURE sp_scc_pagos()
         //     BEGIN

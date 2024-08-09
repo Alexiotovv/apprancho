@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\asignaciones;
+use App\Models\proveedores;
 use Illuminate\Http\Request;
 
-class AsignacionesController extends Controller
+class ProveedoresController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class AsignacionesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(asignaciones $asignaciones)
+    public function show(proveedores $proveedores)
     {
         //
     }
@@ -42,7 +42,7 @@ class AsignacionesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(asignaciones $asignaciones)
+    public function edit(proveedores $proveedores)
     {
         //
     }
@@ -50,7 +50,7 @@ class AsignacionesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, asignaciones $asignaciones)
+    public function update(Request $request, proveedores $proveedores)
     {
         //
     }
@@ -58,7 +58,7 @@ class AsignacionesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(asignaciones $asignaciones)
+    public function destroy(proveedores $proveedores)
     {
         //
     }
