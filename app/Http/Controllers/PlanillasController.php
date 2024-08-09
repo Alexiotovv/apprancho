@@ -126,26 +126,38 @@ class PlanillasController extends Controller
     
 
     public function checkcomida($codigo, $comida) {
-        // Define el array de actualización basado en el tipo de comida
-        $updateData = [];
+        // Define el campo de comida y su valor
+        $campoComida = '';
+        $valorComida = 1;
+    
         if ($comida == 'desayuno') {
-            $updateData['desayuno'] = 1;
+            $campoComida = 'desayuno';
         } else if ($comida == 'almuerzo') {
-            $updateData['almuerzo'] = 1;
+            $campoComida = 'almuerzo';
         } else if ($comida == 'cena') {
-            $updateData['cena'] = 1;
+            $campoComida = 'cena';
         } else {
             // Manejo de casos en los que el tipo de comida no es válido
             return response()->json(['message' => 'Tipo de comida inválido'], 400);
         }
     
+        // Verifica el estado actual del campo de comida
+        $registro = DB::table('planillas')
+            ->where('codigo', '=', $codigo)
+            ->first();
+    
+        if ($registro && $registro->$campoComida == $valorComida) {
+            return response()->json(['message' => 'El ticket ya fue entregado'], 200);
+        }
+    
         // Actualiza el registro en la base de datos
         DB::table('planillas')
             ->where('codigo', '=', $codigo)
-            ->update($updateData);
+            ->update([$campoComida => $valorComida]);
     
         return response()->json(['message' => 'correcto'], 200);
     }
+    
     
 
     public function checkestado($id,$comida,$estado)

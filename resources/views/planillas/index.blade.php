@@ -153,8 +153,12 @@
                         setTimeout(function() {
                             $(element).focus(); // Coloca el cursor en el campo de entrada
                         }, 1300); // Retraso de 0 milisegundos
+                        if (response.message!=='correcto') {
+                            alert(response.message)
+                        }
                     }
                 });
+                
             }
         }
 
