@@ -35,6 +35,8 @@ Route::post('/planillas/store', [PlanillasController::class,'store'])->middlewar
 Route::get('/planillas/show/{fecha}/{empresa}', [PlanillasController::class,'show'])->middleware(['auth'])->name('planillas.show');
 Route::get('/planillas/checkcomida/{codido}/{comida}', [PlanillasController::class,'checkcomida'])->middleware(['auth'])->name('planillas.checkcomida');
 Route::get('/planillas/checkestado/{id}/{comida}/{estado}', [PlanillasController::class,'checkestado'])->middleware(['auth'])->name('planillas.checkestado');
+Route::get('/planillas/ticket/index', [PlanillasController::class,'ticket_index'])->middleware(['auth'])->name('planillas.ticket.index');
+Route::post('/planillas/ticket/', [PlanillasController::class,'ticket'])->middleware(['auth'])->name('planillas.ticket');
 
 //Empresas
 Route::get('/empresas/index', [EmpresasController::class,'index'])->middleware(['auth'])->name('empresas.index');

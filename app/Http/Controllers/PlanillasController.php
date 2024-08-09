@@ -184,10 +184,28 @@ class PlanillasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, planillas $planillas)
+    public function ticket(Request $request)
     {
-        //
+        
+        $planilla=DB::table('planillas')
+        ->leftjoin('trabajadores','trabajadores.id','=','planillas.trabajador_id')
+        ->leftjoin('empresas','empresas.id','=','trabajadores.empresa_id')
+        ->whereDate('planillas.fecha','=',$request->buscar_fecha_planilla)
+        ->where('empresas.id','=',$request->buscar_empresa)
+        ->select('planillas.id','trabajadores.nombre','trabajadores.apellido','planillas.codigo')
+        ->get();
+        
+        return view('planillas.impresion_ticket',compact('planilla'));
+
+
     }
+    public function ticket_index(Request $request){
+        $empresas = empresas::select('id','nombre')->get();
+
+        return view('planillas.ticket',compact('empresas'));
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

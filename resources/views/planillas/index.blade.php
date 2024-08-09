@@ -33,42 +33,42 @@
                     <br>
                     <button type="submit" class="btn btn-primary btn-sm" onclick="btnBuscarPlanilla()"><i class="fas fa-search"></i> Buscar Planilla</button>
                 </div>
-                {{-- <div class="col-md-3">
-                    <label for="">Ingrese Código para Check <button type="button" class="btn btn-light"></button></label>
-                    <input type="text" class="form-control">
-                </div> --}}
+
             </div>
         {{-- </form> --}}
-        <div class="table-responsive">
-            <br>
-            <table id="dtplanillas" class="table table-striped table-bordered">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>N°</th>
-                        <th>Doc.Identidad</th>
-                        <th>Nombre Completo</th>
-                        <th>Cargo</th>
-                        <th>Desayuno
-                            <i class="fas fa-barcode"></i>
-                            <input type="text" class="form-control form-control-sm" id="txtdesayuno" onkeypress="buscarCodigo(event,'desayuno',this)">
-                        </th>
-                        <th>Almuerzo
-                            <i class="fas fa-barcode"></i>
-                            <input type="text" class="form-control form-control-sm" id="txtalmuerzo" onkeypress="buscarCodigo(event,'almuerzo',this)">
-                        </th>
-                        <th>Cena
-                            <i class="fas fa-barcode" style="width: 50px"></i>
-                            <input type="text" class="form-control form-control-sm" id="txtcena" onkeypress="buscarCodigo(event,'cena',this)">
-                        </th>
-                        {{-- <th>Acciones</th> --}}
-                    </tr>
-                </thead>
-                <tbody>
-                   
-                </tbody>
-            </table>
-        </div>
+
+            <div class="table-responsive">
+                <br>
+                <table id="dtplanillas" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>N°</th>
+                            <th>Doc.Identidad</th>
+                            <th>Nombre Completo</th>
+                            <th>Cargo</th>
+                            <th>Desayuno
+                                <i class="fas fa-barcode"></i>
+                                <input type="text" class="form-control form-control-sm" id="txtdesayuno" onkeypress="buscarCodigo(event,'desayuno',this)">
+                            </th>
+                            <th>Almuerzo
+                                <i class="fas fa-barcode"></i>
+                                <input type="text" class="form-control form-control-sm" id="txtalmuerzo" onkeypress="buscarCodigo(event,'almuerzo',this)">
+                            </th>
+                            <th>Cena
+                                <i class="fas fa-barcode" style="width: 50px"></i>
+                                <input type="text" class="form-control form-control-sm" id="txtcena" onkeypress="buscarCodigo(event,'cena',this)">
+                            </th>
+                            {{-- <th>Acciones</th> --}}
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                    </tbody>
+                </table>
+            </div>
+
+
     </div>
 </div>
 
