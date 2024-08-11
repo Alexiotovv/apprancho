@@ -242,10 +242,13 @@ class PlanillasController extends Controller
         ->leftjoin('empresas','empresas.id','=','trabajadores.empresa_id')
         ->whereDate('planillas.fecha','=',$request->buscar_fecha_planilla)
         ->where('empresas.id','=',$request->buscar_empresa)
+        ->where('trabajadores.estado', '=', 1)
         ->select('planillas.id','trabajadores.nombre','trabajadores.apellido','planillas.codigo')
         ->get();
         
-        return view('planillas.impresion_ticket',compact('planilla'));
+        $cantidad_tickets=$planilla->count();
+        
+        return view('planillas.impresion_ticket',compact('planilla','cantidad_tickets'));
 
 
     }

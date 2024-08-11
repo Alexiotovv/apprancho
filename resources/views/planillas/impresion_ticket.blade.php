@@ -27,12 +27,15 @@
                 <h5>Impresion de Ticket</h5>
                 <a href="{{route('planillas.ticket.index')}}" class="btn btn-light btn-sm"><i class="fas fa-caret-square-left"></i> Regresar</a>
             </div>
-            {{-- <div class="col-md-4"> --}}
-                <div class="button-container">
-                    <button onclick="printDiv('printableArea')" class="btn btn-dark btn-sm"><i class="fas fa-print"></i> Imprimir Tickets</button>
-                </div>
+            <div class="col-md-4">
+                <h5>Cantidad de Tickets</h5>
+                <strong>{{$cantidad_tickets}}</strong>
+            </div>
 
-            {{-- </div> --}}
+            
+        </div>
+        <div class="button-container">
+            <button onclick="printDiv('printableArea')" class="btn btn-dark btn-sm"><i class="fas fa-print"></i> Imprimir Tickets</button>
         </div>
         <br>
         <div id="printableArea">
