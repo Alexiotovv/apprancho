@@ -21,8 +21,7 @@ class UserController extends Controller
     }
 
     function create(Request $request){
-        $medicos = User::where('status',1);
-        return view('usuarios.create',['medicos'=>$medicos]);
+        return view('usuarios.create');
     }
     function edit($id){
         $usuario=User::find($id);
@@ -30,45 +29,56 @@ class UserController extends Controller
     }
     function update(Request $request){
         try {
-            $id=request('id');
-            $usuario=User::findOrFail($id);
-            $usuario->name=request('name');
-            $usuario->email=request('email');
-            $usuario->role=request('role');
-            $usuario->status=request('status');
+            $id = $request->input('id');
+            $usuario = User::findOrFail($id);
+    
+            // Verifica si el usuario es "admin"
+            if ($usuario->role !== 'admin') {
+                // Solo actualiza el rol y el estado si el usuario no es "admin"
+                $usuario->role = $request->input('role');
+                $usuario->status = $request->input('status');
+                $usuario->name = $request->input('name');
+                $usuario->email = $request->input('email');
+            }
+    
+            // Actualiza los campos comunes para todos los roles
+            $usuario->name = $request->input('name');
+            $usuario->email = $request->input('email');
             $usuario->save();
-            return redirect()->route('users')->with('mensaje','Registro Actualizado Correctamente!');
+    
+            return redirect()->route('users')->with('mensaje', 'Registro Actualizado Correctamente!');
         } catch (\Throwable $th) {
-            return redirect()->route('users')->with('error','Ocurrió un error durante el registro');
+            return redirect()->route('users')->with('error', 'Ocurrió un error durante el registro');
         }
-
     }
+    
 
     public function register(Request $request){
         //Recepcionamos los datos para validar
         $rules=[
             'name' => 'required|string|max:255',
             'email'=> 'required|string|email|max:255|unique:users',
-            'password'=>'required|string|min:8',
+            'password'=>'required|string|min:5',
             'role' => 'required|string|max:255',
         ];
 
         $messages=[
             'name.required' => 'El nombre del usuario es obligatorio',
             'email.required' => 'El correo electrónico es obligatorio',
-            'password.required' => 'El password requiere mínimo 8 caracteres',
+            'password.required' => 'El password requiere mínimo 5 caracteres',
             'role.required' => 'Require Rol',
 
         ];
 
         $this->validate($request, $rules, $messages);       
 
+        
         //Creamos el usuario
         $user = User::create([
             'name'=> $request->input('name'),
             'email'=>$request->input('email'),
-            'password'=>Hash::make($request->input('password')),
             'role'=>$request->input('role'),
+            'password'=>Hash::make($request->input('password')),
         ]);
 
         return redirect()->route('users')->with('mensaje','Registro Creado Correctamente!');
@@ -99,7 +109,7 @@ class UserController extends Controller
             if ($user->role === 'admin') {
                 $users = User::all();
                 return view('usuarios.index',['users'=>$users]);
-            } elseif ($user->role === 1 ||$user->role === 2) {
+            } elseif ($user->role === "admin" ||$user->role === "asistente") {
                 return view('messages.noautorizado');
             } else {
                 // Manejar otro caso si es necesario

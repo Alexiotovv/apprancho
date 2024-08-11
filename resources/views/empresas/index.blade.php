@@ -40,9 +40,9 @@
                             <td>{{$e->nombre}}</td>
                             <td>
                                 @if ($e->estado==1)
-                                    <label for="" style="color: green">Activado</label>
+                                    <label for="" style="color: green">Habilitado</label>
                                 @elseif ($e->status==0)
-                                    <label for="" style="color: rgb(83, 78, 73)28, 49, 0)">Desactivado</label>
+                                    <label for="" style="color: rgb(83, 78, 73)28, 49, 0)">Inhabilitado</label>
                                 @endif
                             </td>
                             <td>

@@ -52,13 +52,8 @@ class TrabajadoresController extends Controller
         $trabajadores->apellido = request('apellido');
         $trabajadores->cargo = request('cargo');
         $trabajadores->estado = request('estado');
+        $trabajadores->empresa_id = request('empresa');
         $trabajadores->save();
-
-        $asignaciones = new asignaciones();
-        $asignaciones->empresa_id=request('empresa');
-        $asignaciones->trabajador_id=$trabajadores->id;
-        $asignaciones->estado=True;
-        $asignaciones->save();
 
         return redirect()->route('trabajadores.index')->with(['mensaje' => 'Registro Creado','color' => 'success']);
     }
@@ -66,9 +61,10 @@ class TrabajadoresController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(trabajadores $trabajadores)
+    public function show($id_empresa)
     {
-        //
+        $trabajadores = trabajadores::where('empresa_id',$id_empresa)->get();
+        return response()->json(['trabajadores'=>$trabajadores], 200);
     }
 
     /**
@@ -114,21 +110,17 @@ class TrabajadoresController extends Controller
     public function destroy(trabajadores $trabajadores)
     {
         $id_trabajador = request('id_registro_eliminar');
-        $existe_datos=asignaciones::where('trabajador_id',$id_trabajador)->exists();
-        if ($existe_datos) {
-            return redirect()->route('trabajadores.index')->with(['mensaje' => 'El registro no se puede eliminar, contiene datos','color' => 'warning']);
-        }
 
         $trabajadores=trabajadores::find($id_trabajador);
         
         if ($trabajadores) {
             $trabajadores->delete();
-            return redirect()->route('empresas.index')->with([
+            return redirect()->route('trabajadores.index')->with([
                 'mensaje' => 'Registro eliminado exitosamente',
                 'color' => 'success'
             ]);
         } else {
-            return redirect()->route('empresas.index')->with([
+            return redirect()->route('trabajadores.index')->with([
                 'mensaje' => 'Registro no encontrado',
                 'color' => 'danger'
             ]);

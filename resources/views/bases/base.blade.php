@@ -88,7 +88,7 @@
                 </ul>
               </li>
 
-              @if(auth()->user()->role == 'admin')
+              @if(auth()->user()->role === "admin")
                 <li class="pc-item pc-hasmenu">
                   <a href="#!" class="pc-link"
                     ><span class="pc-micon"> <i class="ph-duotone ph-layout"></i></span><span class="pc-mtext">Gestión</span

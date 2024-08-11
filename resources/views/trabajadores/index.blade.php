@@ -46,7 +46,7 @@
                         <tr>
                             <td>{{$t->id}}</td>
                             <td>{{$t->documento}}</td>
-                            <td>{{$t->nombre}} {{$t->apellido}}</td>
+                            <td>{{$t->apellido}} {{$t->nombre}}</td>
                             <td>{{$t->cargo}}</td>
                             <td>
                                 @if ($t->estado==1)
@@ -307,7 +307,7 @@
 
         function btnEliminarTrabajador(id) {
             $("#id_registro_eliminar").val(id);
-            ruta="{{'trabajadores.destroy'}}"
+            ruta="{{route ('trabajadores.destroy')}}"
             $('#formEliminar').attr('action', ruta);
             $("#modalConfirmarEliminar").modal("show");
 
@@ -329,9 +329,9 @@
                     var estado = ""
                     response.forEach(element => {
                         if (element.estado==true) {
-                            estado="<p style='color:green'>Activo</p>"
+                            estado="<p style='color:green'>Habilitado</p>"
                         }else{
-                            estado="<p style='color:red'>Inactivo</p>"
+                            estado="<p style='color:red'>Inhabilitado</p>"
                         }
                         $("#tdEmpresasTrabajador").append("<tr>"+
                             "<td>"+ element.id +"</td>"+

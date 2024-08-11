@@ -11,23 +11,31 @@
                 <input type="email" class="form-control" name="email" value="{{$usuario->email}}" autocomplete="new-password">
                 <label for="">Rol</label>
                 <select name="role" id="" class="form-select">
-                    @if ($usuario->role==0)
-                        <option value="0" selected>Admin</option>
-                        <option value="1">Operador</option>
-                    @elseif ($usuario->role==1)
-                        <option value="1" selected>Operador</option>
-                        <option value="0">Admin</option>
+                    @if ($usuario->role=="admin")
+                        <option value="admin" selected>admin</option>
+                        <option value="asistente">asistente</option>
+                        <option value="visor">visor</option>
+                    @elseif ($usuario->role=="asistente")
+                        <option value="asistente" selected>asistente</option>
+                        <option value="visor">visor</option>
+                        <option value="admin">admin</option>
+                    @elseif ($usuario->role=="visor")
+                        <option value="visor" selected>visor</option>
+                        <option value="asistente">asistente</option>
+                        <option value="admin">admin</option>
                     @endif
+
+
                 </select>
 
                 <label for="">Estado</label>
                 <select name="status" id="" class="form-select">
                     @if ($usuario->status==1)
-                        <option value="1" selected>Activado</option>
-                        <option value="0">Desactivado</option>
+                        <option value="1" selected>Habilitado</option>
+                        <option value="0">Inhabilitado</option>
                     @elseif ($usuario->status==0)
-                        <option value="1">Activado</option>
-                        <option value="0" selected>Desactivado</option>
+                        <option value="1">Habilitado</option>
+                        <option value="0" selected>Inhabilitado</option>
                     @endif
                 </select>
                 <br>

@@ -33,10 +33,64 @@
                     <br>
                     <button type="submit" class="btn btn-primary btn-sm" onclick="btnBuscarPlanilla()"><i class="fas fa-search"></i> Buscar Planilla</button>
                 </div>
+                <div class="col-md-3">
+                    <div id="check-found" hidden>
+                        <button class="btn btn-success"><i class="fas fa-check"></i></button>
+                    </div>
+                    <div id="check-notfound" hidden>
+                        <button class="btn btn-danger"><i class="fas fa-times"></i></button>    
+                    </div>
+
+                    <h5 id="mensaje"></h5>
+
+                </div>
+                
 
             </div>
         {{-- </form> --}}
+        <br>
+            <h5>Detalles Ticket</h5>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <strong>Total</strong>
+                        <p> :31</p>
+                    </div>
 
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <strong>Desayuno Recogidos</strong>
+                        <p> :20</p>
+                    </div>
+                    <div class="input-group">
+                        <strong>Desayuno Pendientes</strong>
+                        <p> :20</p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <strong>Almuerzo Recogido</strong>
+                        <p> : 10</p>
+                    </div>
+                    <div class="input-group">
+                        <strong>Almuerzo Pendientes</strong>
+                        <p> :15</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <strong>Cena Recogidos</strong>
+                        <p> : 10</p>
+                    </div>
+                    <div class="input-group">
+                        <strong>Cena Pendientes</strong>
+                        <p> : 10</p>
+                    </div>
+                </div>
+            </div>
+            
             <div class="table-responsive">
                 <br>
                 <table id="dtplanillas" class="table table-striped table-bordered">
@@ -123,6 +177,42 @@
 
 
 
+{{-- Agregar Trabajador a Planilla --}}
+{{-- <div class="modal fade" id="modalAgregarTrabajadorPlanilla" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Trabajador Planilla</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Seleccione un Trabajador</h5>
+                <div class="row">
+                    <div class="col-md-12">
+                        Trabajadores
+                        <table id="dtTrabajadores" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>Agregar</th>
+                                    <th>Nombre Completo</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    
+                    
+                    <div class="col-md-3">
+                        <br>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> --}}
+
+
 @include('messages.confirmacion_eliminar')
 
 @endsection
@@ -132,20 +222,15 @@
 <script src="../../../assets/js/plugins/dataTables.bootstrap4.min.js"></script>
     <script>
         
-        // $(document).ready(function() {
-        //     $('#dtplanillas').DataTable({
-        //         "order": [[ 0, "desc" ]] // Ordena por la primera columna en orden descendente
-        //     });
-        // });
-        
+
         function buscarCodigo(e,comida,element) {
             if (e.key==="Enter"||e.KeyCode===13) {
                 e.preventDefault();
                 let codigo = $(element).val() 
-
+                let fecha=$("#buscar_fecha_planilla").val()
                 $.ajax({
                     type: "GET",
-                    url: "/planillas/checkcomida/"+ codigo +"/"+ comida,
+                    url: "/planillas/checkcomida/"+ codigo +"/"+ comida+"/"+fecha,
                     dataType: "json",
                     success: function (response) {
                         btnBuscarPlanilla()
@@ -153,8 +238,23 @@
                         setTimeout(function() {
                             $(element).focus(); // Coloca el cursor en el campo de entrada
                         }, 1300); // Retraso de 0 milisegundos
-                        if (response.message!=='correcto') {
-                            alert(response.message)
+                        
+                        $("#check-notfound").attr("hidden", true);
+                        $("#check-found").attr("hidden",false)
+                        $("#mensaje").text(response.message);
+                        
+                    },
+                    error: function(xhr, status, error) {
+                        // Maneja los errores en general
+                        if (xhr.status === 409) {
+                            let mensajeError = xhr.responseJSON.message;
+                            $("#check-notfound").attr("hidden", false);
+                            $("#check-found").attr("hidden",true)
+                            $("#mensaje").text(mensajeError);
+                            
+                        } else {
+                            console.log('Otro error:', xhr.status, error);
+                            // Manejo general de otros errores
                         }
                     }
                 });
@@ -184,6 +284,7 @@
                     alert(response.message);
                 }
             });
+            $("#modalGenerarPlanilla").modal("hide");
         }
 
 
@@ -258,21 +359,25 @@
 
 
         function cambia_estado(elemento,comida) {
+            // fila = $(elemento).closest("tr");
+            // id = (fila).find('td:eq(0)').text();
             fila = $(elemento).closest("tr");
-            id = (fila).find('td:eq(0)').text();
-            
+            var table = $('#dtplanillas').DataTable();
+            var datosFila = table.row(fila).data();
+            id = datosFila[0];
+
             if ($(elemento).prop('checked')){ 
                 estado=1; 
             } else { 
                 estado=0; 
             }
-
+            console.log(id)
             $.ajax({
                 type: "GET",
                 url: "/planillas/checkestado/"+id+"/"+comida+"/"+estado,
                 dataType: "json",
                 success: function (response) {
-                    
+
                 }
             });
         }

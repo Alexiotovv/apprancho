@@ -23,7 +23,7 @@ Route::post('/trabajadores/store', [TrabajadoresController::class,'store'])->mid
 Route::get('/trabajadores/edit/{id}', [TrabajadoresController::class,'edit'])->middleware(['auth'])->name('trabajadores.edit');
 Route::post('/trabajadores/update', [TrabajadoresController::class,'update'])->middleware(['auth'])->name('trabajadores.update');
 Route::post('/trabajadores/destroy', [TrabajadoresController::class,'destroy'])->middleware(['auth'])->name('trabajadores.destroy');
-
+// Route::get('/trabajadores/show/{id_empresa}', [TrabajadoresController::class,'show'])->middleware(['auth'])->name('trabajadores.show');
 
 //EmpresasTrabajó
 Route::get('/trabajadores/empresas/{id}', [TrabajadoresController::class,'empresas'])->middleware(['auth'])->name('trabajadores.empresas');
@@ -33,10 +33,11 @@ Route::get('/trabajadores/empresas/{id}', [TrabajadoresController::class,'empres
 Route::get('/planillas/index', [PlanillasController::class,'index'])->middleware(['auth'])->name('planillas.index');
 Route::post('/planillas/store', [PlanillasController::class,'store'])->middleware(['auth'])->name('planillas.store');
 Route::get('/planillas/show/{fecha}/{empresa}', [PlanillasController::class,'show'])->middleware(['auth'])->name('planillas.show');
-Route::get('/planillas/checkcomida/{codido}/{comida}', [PlanillasController::class,'checkcomida'])->middleware(['auth'])->name('planillas.checkcomida');
+Route::get('/planillas/checkcomida/{codigo}/{comida}/{fecha}', [PlanillasController::class,'checkcomida'])->middleware(['auth'])->name('planillas.checkcomida');
 Route::get('/planillas/checkestado/{id}/{comida}/{estado}', [PlanillasController::class,'checkestado'])->middleware(['auth'])->name('planillas.checkestado');
 Route::get('/planillas/ticket/index', [PlanillasController::class,'ticket_index'])->middleware(['auth'])->name('planillas.ticket.index');
 Route::post('/planillas/ticket/', [PlanillasController::class,'ticket'])->middleware(['auth'])->name('planillas.ticket');
+
 
 //Empresas
 Route::get('/empresas/index', [EmpresasController::class,'index'])->middleware(['auth'])->name('empresas.index');

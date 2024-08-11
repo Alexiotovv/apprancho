@@ -80,9 +80,10 @@ class PlanillasController extends Controller
         ->leftjoin('trabajadores','trabajadores.id','=','planillas.trabajador_id')
         ->leftjoin('empresas','empresas.id','=','trabajadores.empresa_id')
         ->where('trabajadores.empresa_id','=',$empresa)
+        ->where('trabajadores.estado','=',1)
         ->whereDate('planillas.fecha','=',$fecha)
         ->select(
-            'trabajadores.id',
+            'planillas.id',
             'trabajadores.documento',
             'trabajadores.nombre',
             'trabajadores.apellido',
@@ -125,7 +126,7 @@ class PlanillasController extends Controller
     }
     
 
-    public function checkcomida($codigo, $comida) {
+    public function checkcomida($codigo, $comida,$fecha) {
         // Define el campo de comida y su valor
         $campoComida = '';
         $valorComida = 1;
@@ -143,19 +144,36 @@ class PlanillasController extends Controller
     
         // Verifica el estado actual del campo de comida
         $registro = DB::table('planillas')
+            ->leftjoin('trabajadores','trabajadores.id','=','planillas.trabajador_id')
             ->where('codigo', '=', $codigo)
+            ->where($campoComida,'=',$valorComida)
+            ->whereDate('fecha', '=', $fecha)
             ->first();
-    
+        
         if ($registro && $registro->$campoComida == $valorComida) {
-            return response()->json(['message' => 'El ticket ya fue entregado'], 200);
+            $nombre_trabajador=$registro->apellido." ".$registro->nombre;
+            return response()->json(['message' => 'El ticket ya fue checkeado: '.$nombre_trabajador], 409);
         }
-    
+        
+
         // Actualiza el registro en la base de datos
         DB::table('planillas')
             ->where('codigo', '=', $codigo)
+            ->whereDate('fecha','=',$fecha)
             ->update([$campoComida => $valorComida]);
     
-        return response()->json(['message' => 'correcto'], 200);
+        $registro = DB::table('planillas')
+            ->leftjoin('trabajadores','trabajadores.id','=','planillas.trabajador_id')
+            ->where('codigo', '=', $codigo)
+            ->where($campoComida,'=',$valorComida)
+            ->whereDate('fecha', '=', $fecha)
+            ->first();
+
+            if ($registro) {
+                $nombre_trabajador=$registro->apellido." ".$registro->nombre;
+            }
+
+        return response()->json(['message' => 'Ticker chekeado: '.$nombre_trabajador], 200);
     }
     
     

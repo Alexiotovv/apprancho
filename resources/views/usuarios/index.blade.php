@@ -63,9 +63,9 @@
                             </td>
                             <td>
                                 @if ($d->status==1)
-                                    <label for="" style="color: green">Activado</label>
+                                    <label for="" style="color: green">Habilitado</label>
                                 @elseif ($d->status==0)
-                                <label for="" style="color: rgb(83, 78, 73)28, 49, 0)">Desactivado</label>
+                                <label for="" style="color: rgb(83, 78, 73)28, 49, 0)">Inhabilitado</label>
                                 @endif
                             </td>
                             <td>
@@ -74,14 +74,7 @@
                         </tr>
                     @endforeach
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Correo</th>
-                        <th>Rol</th>
-                        <th>Estado</th>
-                    </tr>
-                </tfoot>
+                
             </table>
         </div>
     </div>
