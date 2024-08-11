@@ -233,6 +233,8 @@
         
 
         function buscarCodigo(e,comida,element) {
+            
+
             if (e.key==="Enter"||e.KeyCode===13) {
                 e.preventDefault();
                 let codigo = $(element).val() 
@@ -279,6 +281,7 @@
                 });
                 
             }
+
         }
 
         function modalGenerarPlanilla() {
@@ -310,6 +313,8 @@
         var isInitialized = false;
 
         function btnBuscarPlanilla() {
+            var scrollPosition = $(window).scrollTop(); // Guarda la posición actual del scroll
+
             if (isInitialized) {
                 $('#dtplanillas').DataTable().clear().destroy();  // Solo destruye la instancia existente
             }
@@ -403,6 +408,8 @@
                         
                         $("#cenaRecogidos").text(": "+response.cena_recogido);
                         $("#cenaPendientes").text(": " + (numero-(response.cena_recogido)));
+                        
+                        $(window).scrollTop(scrollPosition); // Restaura la posición del scroll
 
 
                     } else {
