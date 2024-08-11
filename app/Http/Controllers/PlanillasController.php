@@ -47,7 +47,7 @@ class PlanillasController extends Controller
 
         $trabajadores= DB::table('trabajadores')
         ->where('trabajadores.empresa_id','=',$request->empresa_id)
-        ->where('trabajadores.estado','=',1)
+        // ->where('trabajadores.estado','=',1)
         ->select('trabajadores.empresa_id','trabajadores.id','trabajadores.documento')
         ->get();
 
@@ -94,6 +94,20 @@ class PlanillasController extends Controller
         )
         ->get();
 
+
+        $desayuno_recogido = $planillas->filter(function ($planillas) {
+            return $planillas->desayuno == 1;
+        })->count();
+
+        $almuerzo_recogido = $planillas->filter(function ($planillas) {
+            return $planillas->almuerzo == 1;
+        })->count();
+
+        $cena_recogido = $planillas->filter(function ($planillas) {
+            return $planillas->cena == 1;
+        })->count();
+
+
         if ($planillas->count()<1) {
             return response()->json(['data'=>[],'message'=>'No existen registros con la fecha y la empresa seleccionada.'], 200);
         }
@@ -122,7 +136,12 @@ class PlanillasController extends Controller
             'empresa'=>$empresa,
             'proveedor'=>$proveedor,
             'area'=>$area,
-            'fecha'=>$fecha], 200);
+            'fecha'=>$fecha,
+            'desayuno_recogido'=>$desayuno_recogido,
+            'almuerzo_recogido'=>$almuerzo_recogido,
+            'cena_recogido'=>$cena_recogido,
+
+            ], 200);
     }
     
 
@@ -142,9 +161,22 @@ class PlanillasController extends Controller
             return response()->json(['message' => 'Tipo de comida inválido'], 400);
         }
     
+        
+        //Verifica si trabajador está habilitado:
+        $trabajador_habilitado = DB::table('trabajadores')
+        ->where('trabajadores.documento', '=', $codigo)
+        ->where('trabajadores.estado', '=', 0)
+        ->first();
+
+        if ($trabajador_habilitado) {
+            return response()->json(['message' => 'El trabajador se encuentra inhabilitado '], 409);
+        }
+        
+        
         // Verifica el estado actual del campo de comida
         $registro = DB::table('planillas')
             ->leftjoin('trabajadores','trabajadores.id','=','planillas.trabajador_id')
+            ->where('trabajadores.estado', '=', 1)
             ->where('codigo', '=', $codigo)
             ->where($campoComida,'=',$valorComida)
             ->whereDate('fecha', '=', $fecha)
@@ -154,7 +186,7 @@ class PlanillasController extends Controller
             $nombre_trabajador=$registro->apellido." ".$registro->nombre;
             return response()->json(['message' => 'El ticket ya fue checkeado: '.$nombre_trabajador], 409);
         }
-        
+
 
         // Actualiza el registro en la base de datos
         DB::table('planillas')

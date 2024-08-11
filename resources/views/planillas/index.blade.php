@@ -54,39 +54,39 @@
                 <div class="col-md-2">
                     <div class="input-group">
                         <strong>Total</strong>
-                        <p> :31</p>
+                        <p id="total"> </p>
                     </div>
 
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <strong>Desayuno Recogidos</strong>
-                        <p> :20</p>
+                        <p id="desayunoRecogidos"> </p>
                     </div>
                     <div class="input-group">
                         <strong>Desayuno Pendientes</strong>
-                        <p> :20</p>
+                        <p id="desayunoPendientes"> </p>
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="input-group">
                         <strong>Almuerzo Recogido</strong>
-                        <p> : 10</p>
+                        <p id="almuerzoRecogidos"> </p>
                     </div>
                     <div class="input-group">
                         <strong>Almuerzo Pendientes</strong>
-                        <p> :15</p>
+                        <p id="almuerzoPendientes"> </p>
                     </div>
                 </div>
                 
                 <div class="col-md-2">
                     <div class="input-group">
                         <strong>Cena Recogidos</strong>
-                        <p> : 10</p>
+                        <p id="cenaRecogidos"> </p>
                     </div>
                     <div class="input-group">
                         <strong>Cena Pendientes</strong>
-                        <p> : 10</p>
+                        <p id="cenaPendientes"> </p>
                     </div>
                 </div>
             </div>
@@ -241,8 +241,7 @@
                         
                         $("#check-notfound").attr("hidden", true);
                         $("#check-found").attr("hidden",false)
-                        $("#mensaje").text(response.message);
-                        
+                        $("#mensaje").text(response.message)
                     },
                     error: function(xhr, status, error) {
                         // Maneja los errores en general
@@ -251,10 +250,21 @@
                             $("#check-notfound").attr("hidden", false);
                             $("#check-found").attr("hidden",true)
                             $("#mensaje").text(mensajeError);
-                            
-                        } else {
+                            $(element).val("");
+                            setTimeout(function() {
+                                $(element).focus(); // Coloca el cursor en el campo de entrada
+                            }, 1300);
+                        } else if(xhr.status === 404) {
+                            let mensajeError = xhr.responseJSON.message;
+                            $("#check-notfound").attr("hidden", false);
+                            $("#check-found").attr("hidden",true)
+                            $("#mensaje").text(mensajeError);
+                            $(element).val("");
+                            setTimeout(function() {
+                                $(element).focus(); // Coloca el cursor en el campo de entrada
+                            }, 1300);
+                        }else{
                             console.log('Otro error:', xhr.status, error);
-                            // Manejo general de otros errores
                         }
                     }
                 });
@@ -338,6 +348,10 @@
 
                         // Inicializa el DataTable
                         $('#dtplanillas').DataTable({
+                            "language": {
+                            "search": "Buscar:", // Cambia "Search" por "Buscar" o la palabra que desees
+                            // Puedes cambiar otras cadenas de texto también, como las de paginación
+                            },
                             "order": [[0, "asc"]], // Ordena por la primera columna en orden ascendente
                             "pageLength": 200,
                             "columnDefs": [
@@ -349,6 +363,18 @@
                         });
 
                         isInitialized = true; // Marca como inicializada
+
+                        $("#total").text(": "+numero);
+                        
+                        $("#desayunoRecogidos").text(": "+response.desayuno_recogido);
+                        $("#desayunoPendientes").text(": " + (numero-(response.desayuno_recogido)));
+                        
+                        $("#almuerzoRecogidos").text(": "+response.almuerzo_recogido);
+                        $("#almuerzoPendientes").text(": " + (numero-(response.almuerzo_recogido)));
+                        
+                        $("#cenaRecogidos").text(": "+response.cena_recogido);
+                        $("#cenaPendientes").text(": " + (numero-(response.cena_recogido)));
+
 
                     } else {
                         alert(response.message);
@@ -377,7 +403,7 @@
                 url: "/planillas/checkestado/"+id+"/"+comida+"/"+estado,
                 dataType: "json",
                 success: function (response) {
-
+                    btnBuscarPlanilla();
                 }
             });
         }
