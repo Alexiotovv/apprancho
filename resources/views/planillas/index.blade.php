@@ -59,34 +59,43 @@
 
                 </div>
                 <div class="col-md-2">
+                    <h5>Desayuno</h5>
                     <div class="input-group">
-                        <strong>Desayuno Recogidos</strong>
-                        <p id="desayunoRecogidos"> </p>
+                        <img src="../../../assets/images/comprobado.png" width="20px">
+                        <strong style="padding-left: 5px"> Recogidos</strong>
+                        <p id="desayunoRecogidos"></p>
                     </div>
                     <div class="input-group">
-                        <strong>Desayuno Pendientes</strong>
-                        <p id="desayunoPendientes"> </p>
+                        <img src="../../../assets/images/food-empty.png" width="20px">
+                        <strong style="padding-left: 5px"> Pendientes</strong>
+                        <p id="desayunoPendientes"></p>
                     </div>
                 </div>
                 <div class="col-md-2">
+                    <h5>Almuerzo</h5>
                     <div class="input-group">
-                        <strong>Almuerzo Recogido</strong>
-                        <p id="almuerzoRecogidos"> </p>
+                        <img src="../../../assets/images/comprobado.png" width="20px">
+                        <strong style="padding-left: 5px"> Recogidos</strong>
+                        <p id="almuerzoRecogidos"></p>
                     </div>
                     <div class="input-group">
-                        <strong>Almuerzo Pendientes</strong>
-                        <p id="almuerzoPendientes"> </p>
+                        <img src="../../../assets/images/food-empty.png" width="20px">
+                        <strong style="padding-left: 5px"> Pendientes</strong>
+                        <p id="almuerzoPendientes"></p>
                     </div>
                 </div>
                 
                 <div class="col-md-2">
+                    <h5>Cena</h5>
                     <div class="input-group">
-                        <strong>Cena Recogidos</strong>
-                        <p id="cenaRecogidos"> </p>
+                        <img src="../../../assets/images/comprobado.png" width="20px">
+                        <strong style="padding-left: 5px"> Recogidos</strong>
+                        <p id="cenaRecogidos"></p>
                     </div>
                     <div class="input-group">
-                        <strong>Cena Pendientes</strong>
-                        <p id="cenaPendientes"> </p>
+                        <img src="../../../assets/images/food-empty.png" width="20px">
+                        <strong style="padding-left: 5px"> Pendientes</strong>
+                        <p id="cenaPendientes"></p>
                     </div>
                 </div>
             </div>
@@ -122,7 +131,7 @@
                 </table>
             </div>
 
-
+<img src="" alt="">
     </div>
 </div>
 
@@ -322,6 +331,21 @@
                             let almuerzo = element.almuerzo ? "checked" : "";
                             let cena = element.cena ? "checked" : "";
 
+                            let icon_desayuno="<img src='../../../assets/images/food-empty.png' width='25px'>";
+                            let icon_almuerzo="<img src='../../../assets/images/food-empty.png' width='25px'>";
+                            let icon_cena="<img src='../../../assets/images/food-empty.png' width='25px'>";
+
+                            if (element.desayuno) {
+                                icon_desayuno="<img src='../../../assets/images/comprobado.png' width='25px'>";
+                            }
+                            if(element.almuerzo){
+                                icon_almuerzo="<img src='../../../assets/images/comprobado.png' width='25px'>";
+                            }
+                            if(element.cena){
+                                icon_cena="<img src='../../../assets/images/comprobado.png' width='25px'>";
+                            }
+
+
                             $("#dtplanillas tbody").append(
                                 "<tr>" +
                                 "<td>" + element.id + "</td>" +
@@ -330,17 +354,22 @@
                                 "<td>" + element.apellido + " " + element.nombre + "</td>" +
                                 "<td>" + element.cargo + "</td>" +
                                 "<td>" +
-                                "<div class='form-check form-switch'>" +
-                                "<input class='form-check-input chkdesayuno' type='checkbox' onclick='cambia_estado(this, \"desayuno\")' id='desayuno' " + desayuno + ">" +
-                                "</div>" +
+                                    "<div class='form-check form-switch'>" +
+                                        "<input class='form-check-input chkdesayuno' type='checkbox' onclick='cambia_estado(this, \"desayuno\")' id='desayuno' " + desayuno + ">" +
+                                        icon_desayuno+
+                                    "</div>" +
                                 "</td>" +
                                 "<td>" + 
                                     "<div class='form-check form-switch'>" +
-                                    "<input class='form-check-input chkalmuerzo' type='checkbox' onclick='cambia_estado(this, \"almuerzo\")' id='almuerzo' " + almuerzo + ">" +
+                                        "<input class='form-check-input chkalmuerzo' type='checkbox' onclick='cambia_estado(this, \"almuerzo\")' id='almuerzo' " + almuerzo + ">" +
+                                        icon_almuerzo+
+                                    "</div>" +
                                 "</td>" +
                                 "<td>" + 
                                     "<div class='form-check form-switch'>" +
-                                    "<input class='form-check-input chkcena' type='checkbox' onclick='cambia_estado(this, \"cena\")' id='cena' " + cena + ">" +
+                                        "<input class='form-check-input chkcena' type='checkbox' onclick='cambia_estado(this, \"cena\")' id='cena' " + cena + ">" +
+                                        icon_cena+
+                                    "</div>" +
                                 "</td>" +
                                 "</tr>"
                             );
