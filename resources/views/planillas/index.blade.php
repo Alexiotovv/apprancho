@@ -98,8 +98,13 @@
                         <p id="cenaPendientes"></p>
                     </div>
                 </div>
+                <div class="col-md-2">
+                    <h5>Area</h5>
+                    <strong id="area"></strong>
+                    <h5>Proveedor</h5>
+                    <strong id="proveedor"></strong>
+                </div>
             </div>
-            
             <div class="table-responsive">
                 <br>
                 <table id="dtplanillas" class="table table-striped table-bordered">
@@ -409,8 +414,10 @@
                         $("#cenaRecogidos").text(": "+response.cena_recogido);
                         $("#cenaPendientes").text(": " + (numero-(response.cena_recogido)));
                         
-                        $(window).scrollTop(scrollPosition); // Restaura la posición del scroll
 
+                        $(window).scrollTop(scrollPosition); // Restaura la posición del scroll
+                        $("#area").text(response.area);
+                        $("#proveedor").text(response.proveedor);
 
                     } else {
                         alert(response.message);
